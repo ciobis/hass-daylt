@@ -23,6 +23,12 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
     name = config.get(CONF_NAME)
     async_add_entities([DayLtSensor(hass, name)], True)
 
+
+async def async_setup_entry(hass, entry, async_add_entities):
+    """Set up Day LT sensor from a config entry."""
+    name = entry.data.get(CONF_NAME, DEFAULT_NAME)
+    async_add_entities([DayLtSensor(hass, name)], True)
+
 class DayLtSensor(Entity):
     """Representation of the DayLt sensor."""
 

@@ -27,23 +27,29 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
 async def async_setup_entry(hass, entry, async_add_entities):
     """Set up Day LT sensor from a config entry."""
     name = entry.data.get(CONF_NAME, DEFAULT_NAME)
-    async_add_entities([DayLtSensor(hass, name)], True)
+    async_add_entities([DayLtSensor(hass, name, unique_id=entry.entry_id)], True)
 
 class DayLtSensor(Entity):
     """Representation of the DayLt sensor."""
 
-    def __init__(self, hass, name):
+    def __init__(self, hass, name, unique_id=None):
         """Initialize the sensor."""
         self._name = name
         self._state = None
         self._attributes = {}
         self._last_update_date = None
         self._hass = hass
+        self._unique_id = unique_id
 
     @property
     def name(self):
         """Return the name of the sensor."""
         return self._name
+
+    @property
+    def unique_id(self):
+        """Return a unique ID, or None for YAML-configured entities."""
+        return self._unique_id
 
     @property
     def state(self):
